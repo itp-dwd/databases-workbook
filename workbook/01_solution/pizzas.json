@@ -1,0 +1,14 @@
+{
+  "pizzas": [
+    {
+      "id": 1,
+      "name": "Hawaiian",
+      "toppings": ["ham", "pineapple"]
+    },
+    {
+      "id": 2,
+      "name": "Meat Lover's",
+      "topppings": ["pepperoni", "sausage", "breakfast bacon", "ground beef"]
+    }
+  ]
+}
