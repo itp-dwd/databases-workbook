@@ -1,0 +1,15 @@
+{
+  "lists": [
+    {
+      "id": UUID,
+      "title": String,
+      "items": [
+        {
+          "id": UUID,
+          "title": String,
+          "completed": Boolean
+        }
+      ]
+    }
+  ]
+}

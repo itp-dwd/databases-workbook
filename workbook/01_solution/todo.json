@@ -1,0 +1,10 @@
+{
+  "todos": [
+    {
+      "id": UUID,
+      "title": String,
+      "completed": Boolean
+    }
+
+  ]
+}
