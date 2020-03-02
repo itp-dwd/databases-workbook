@@ -28,6 +28,8 @@ This workbook accompanies Week 5 of the DWD class.
   - [Simple Todo list](http://todomvc.com/examples/react/#/), [Solution](./workbook/02_solution/todo.json)
   - A Todo list with multiple lists, [Solution](./workbook/02_solution/todoLists.json).
   - A Todo list app with multiple users. Hint: It is best practice not to deeply nest data structures, but instead connect them via ids. Another hint: think about the interface, which would fetch all todo lists for a specific user. [Solution](./workbook/02_solution/todoUsers.json)
+  - An Online News website, e.g. [The New York Times](nytimes.com)
+  - Try your own!
 
 ### 03 Intro to NeDB
 - NeDB is a JS library that has the same API as MongoDB, but it stores all of the data in a file so you don't need to install MongoDB
@@ -271,8 +273,12 @@ Insert the pizza toppings in pizzaToppings.json to a Mongo database.
 Convert the Pizza Toppings API to use MongoDB instead of NeDB.
 - Copy your code from Challenge 10.
 - Uninstall `nedb`
+- Delete `toppings.db`
 - Install `mongodb`
 - Install `dotenv`
 - Copy your `.env` from Challenge 13.
 - Add `.env` to your `.gitignore`
 - Copy your code from Challenge 13 to connect to the MongoDB.
+- Replace all of your `insert`/`find`/`delete` code from point to NeDB to point to Mongo.
+- Note that you'll only need to change the DB connection, and the functions `addTopping`, `getToppings`, and `deleteTopping`
+- Run the server by running `npm start` and test that it all works!

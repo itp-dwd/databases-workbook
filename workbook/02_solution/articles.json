@@ -1,0 +1,19 @@
+{
+  articles: [
+    {
+      "id": UUID,
+      "headline": String,
+      "byline": String,
+      "author": UUID,
+      "published_date": Datetime,
+      "image": URL,
+      "content": HTML
+    }
+  ],
+  authors: [
+    {
+      id: UUID,
+      name: String
+    }
+  ]
+}
