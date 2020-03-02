@@ -166,7 +166,6 @@ This workbook accompanies Week 5 of the DWD class.
 
 ### 11 Registering for MongoDB Atlas
 **Challenge**:
-Now that we're familiar with NeDB, we can move on to MongoDB. We're going to use a service called MongoDB Atlas. First
-- Register for a [MongoDB Atlas account](https://www.mongodb.com/download-center)
-- Create a free starter cluster. You can choose any cloud provider that you want (perhaps the one you are least ethically opposed to?)
-- 
+Now that we're familiar with NeDB, we can move on to MongoDB. We're going to use a service called MongoDB Atlas.
+- Follow the [Database Services Guide](https://github.com/itp-dwd/2020-spring/blob/master/guides/database-services-guide.md#mongodb-atlas) to register for a MongoDB Atlas account and create a free tier cluster.
+
