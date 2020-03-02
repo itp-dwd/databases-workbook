@@ -169,3 +169,17 @@ This workbook accompanies Week 5 of the DWD class.
 Now that we're familiar with NeDB, we can move on to MongoDB. We're going to use a service called MongoDB Atlas.
 - Follow the [Database Services Guide](https://github.com/itp-dwd/2020-spring/blob/master/guides/database-services-guide.md#mongodb-atlas) to register for a MongoDB Atlas account and create a free tier cluster.
 
+### 12 Connecting to your Mongo Database
+**Challenge**:
+Write a Node script that connects to your Mongo database. We're first going to play around with connecting to the database, and then connect it to our pizza toppings example.
+- Make sure you have created a username and password for your cluster
+- Create a new file called `script.js`
+- Run `npm init`
+- Run `npm install --save mongodb` to add the npm library to connect to your mongo database
+- Run `npm install --save dotenv` so that we can hide the mongo connection url from git
+- Create your `.env` file and your `.gitignore` file
+- Get your Mongo Connection string by clicking the "Connect" button in your cluster, then "Connect Your Application", then choose your connection method as "Node.js". Copy the text that appears as "Connection String Only" and put it into a variable in your `.env` file as `MONGO_URL`. You'll have to manually enter in the password.
+- Then, click on the "Full Driver Example" tab and copy all of that code, and paste it into `script.js`
+- Replace the value of `uri` with `process.env.MONGO_URL`
+- In the `client.connect` callback function, add code that checks if there is an `err`, and if so, `console.log` the value
+- Run `node script.js` to make sure it is all working.
