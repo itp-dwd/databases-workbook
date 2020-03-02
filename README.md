@@ -183,3 +183,67 @@ Write a Node script that connects to your Mongo database. We're first going to p
 - Replace the value of `uri` with `process.env.MONGO_URL`
 - In the `client.connect` callback function, add code that checks if there is an `err`, and if so, `console.log` the value
 - Run `node script.js` to make sure it is all working.
+
+### 13 Mongo Operations
+**Challenge**:
+Let's play around with the Mongo API to understand how we work with data and do the things we want to do with it (CRUD: Create, Read, Update, and Delete)
+- Copy your code from Challenge 12.
+- Go to the [documentation](http://mongodb.github.io/node-mongodb-native/3.5/) for the `mongodb` npm library. 
+- Click on the "Quick Start" guide. Note that this quick start guide is assuming you have mongo installed on your computer, and therefore the connection string is different.
+- Notice the different terms.
+  - **Cluster**: The root of your Mongo URL. Think of this like a server computer. A cluster can have many databases.
+  - **Database**: A collection of data relevant to one application, which usually has the same name as your application. For example, the p5.js Web Editor has a Mongo database called "p5js-web-editor".
+  - **Collection**: sub-organization for your web application data. For example, in the p5.js Web Editor, there are collections called "users" and "sketches". 
+  - **Document**: one entry in the collection
+- Let's call our database "pizza-app". Create a variable `const DB_NAME="pizza-app"`; You'll use this in `client.db(DB_NAME)`. 
+- Then, we're going to be connecting to the "toppings" collection. You can connect to a db/collection before you've added anything to it.
+- Change the line that creates a variable called "collection" to 
+  ```js
+  const Toppings = client.db(DB_NAME).collection("toppings");
+  ```
+  Notice that the variable is capitalized—this is a convention when working with Mongo collections in Node.
+- Then, let's insert some data into the database:
+  ```js
+  // insert one
+  Toppings.insert({name: "pineapple"}, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(result);
+  });
+
+  // insert multiple
+  Toppings.insertMany([
+    {name: "pepperoni"}, {name: "ham"}, {name: "sausage"}
+  ], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(result);
+  });
+  ```
+- Now, let's run this operation by running `node script.js`
+- To check that you inserted some data, let's open up the Atlas Cluster Admin Panel and click on "Collections". You should see something like this:
+  ![MongoDB Atlas Admin Panel](./workbook/13_solution/13_mongo_atlas_toppings_insert.png)
+- Now, let's try listing this data from Node. Comment out all of your insertion code and add the following:
+  ```js
+  // You must use the method `toArray` to look at the documents
+  Toppings.find({}).toArray((err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(result);
+  });
+  ```
+  Run `node script.js` to see the results.
+- Let's delete one of the toppings. Say I want to remove "pepperoni":
+  ```js
+  Toppings.deleteOne({name: "pepperoni"}, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(result);
+  });
+  ```
+  Run `node script.js` to see the results.
+- Yay! Now we're using Mongo!
