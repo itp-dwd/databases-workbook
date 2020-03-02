@@ -247,3 +247,32 @@ Let's play around with the Mongo API to understand how we work with data and do 
   ```
   Run `node script.js` to see the results.
 - Yay! Now we're using Mongo!
+
+### 14 Pizza Topping JSON -> MongoDB
+**Challenge**:
+Insert the pizza toppings in pizzaToppings.json to a Mongo database.
+- Copy your code from Challenge 5.
+- Go onto MongoDB Atlas and clear all of the entries from your "toppings" collection.
+- Uninstall `nedb`
+- Delete `toppings.db`
+- Install `mongodb`
+- Install `dotenv`
+- Copy your `.env` from Challenge 13.
+- Add `.env` to your `.gitignore`
+- Copy your code from Challenge 13 to connect to the MongoDB.
+- Merge your code from Challenge 05 and Challenge 13 to read from the pizzaToppings JSON file to MongoDB
+- Run `node script.js` to insert the data
+- Go to MongoDB Atlas to confirm the data is in your database.
+  ![MongoDB Atlas Toppings Collection Entries](./workbook/14_solution/14_mongo_atlas_toppings_migration.png)
+
+
+### 15 Converting Pizza Toppings API to Mongo
+**Challenge**:
+Convert the Pizza Toppings API to use MongoDB instead of NeDB.
+- Copy your code from Challenge 10.
+- Uninstall `nedb`
+- Install `mongodb`
+- Install `dotenv`
+- Copy your `.env` from Challenge 13.
+- Add `.env` to your `.gitignore`
+- Copy your code from Challenge 13 to connect to the MongoDB.
