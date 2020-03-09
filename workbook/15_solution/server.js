@@ -3,20 +3,22 @@ const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
 
-const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
 const uri = process.env.MONGO_URL;
-const client = new MongoClient(uri, { useNewUrlParser: true });
-const DB_NAME = "pizza-app";
 
-let db;
-client.connect(err => {
-  if (err) {
-    console.log(err);
-    return;
-  }
-  db = client.db(DB_NAME);
-  Toppings = db.collection("toppings");
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log("connected!");
 });
+
+const ToppingSchema = mongoose.Schema({
+  name: String
+});
+
+const Topping = mongoose.model("Topping", ToppingSchema);
 
 const app = express();
 
@@ -32,26 +34,22 @@ app.get("/about", (req, res) => {
 });
 
 function getToppings(cb) {
-  // Change to add toArray to find
-  Toppings.find({}).toArray((err, toppings) => {
+  Topping.find({}, (err, toppings) => {
     cb(err, toppings);
   });
 }
 
 function addTopping(topping, cb) {
-  // result is no longer the new topping
-  // change from db.insert
-  Toppings.insertOne({name: topping}, (err, result) => {
-    // see http://mongodb.github.io/node-mongodb-native/3.1/api/Collection.html#~insertOneWriteOpResult
-    cb(err, result.ops[0]);
+  // change from insert
+  Topping.create({name: topping}, (err, result) => {
+    cb(err, result);
   });
 }
 
 function deleteTopping(toppingToDelete, cb) {
   // change from db.remove
-  Toppings.deleteOne({name: toppingToDelete}, (err, result) => {
-    // see http://mongodb.github.io/node-mongodb-native/3.1/api/Collection.html#~deleteWriteOpResult
-    cb(err, result.deletedCount);
+  Topping.deleteOne({name: toppingToDelete}, (err) => {
+    cb(err, 1);
   });
 }
 
