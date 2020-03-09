@@ -282,3 +282,87 @@ Convert the Pizza Toppings API to use MongoDB instead of NeDB.
 - Replace all of your `insert`/`find`/`delete` code from point to NeDB to point to Mongo.
 - Note that you'll only need to change the DB connection, and the functions `addTopping`, `getToppings`, and `deleteTopping`
 - Run the server by running `npm start` and test that it all works!
+
+### 16 Using Mongoose with MongoDB
+**Challenge**:
+Use Mongoose to create a Schema for our data. Why? Mongoose gives us a lot of nice stuff:
+  * Schemas - This allows you to define a specific structure for your data. Not only is it documented for you, it is documented for other developers.
+  * Validation - You can add functions to validate your data, like a field must be unique, or of a certain length, and so on.
+  * Easier to use API - In my humble opinion, it's significantly easier to use (and more sane!).
+* Copy your code from Challenge 15.
+* Install Mongoose (`npm install --save mongoose`).
+* Look at the Mongoose [Getting Started Documentation](https://mongoosejs.com/docs/index.html).
+* Uninstall the mongodb library (`npm uninstall --save mongodb`)
+* Remove all of the `mongodb` code that connects to the database, but not any of the code in `getToppings`, `createTopping`, or `deleteTopping`
+* Update your Mongo URL to include your database name (in this case, `pizza-app`)
+  * `MONGO_URL=mongodb+srv://username:password@dwd-pizza-toppings-g2kfw.gcp.mongodb.net/pizza-app?retryWrites=true&w=majority`
+* Change your `server.js` to connect to Atlas via Mongoose:
+  ```js
+  const mongoose = require("mongoose");
+  const uri = process.env.MONGO_URL;
+  mongoose.connect(uri, { useNewUrlParser: true });
+  const db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error:'));
+  db.once('open', function () {
+    console.log("Connected to MongoDB!");
+  });
+  ```
+* Create a new file called `topping.js`. This is where our Topping Schema will live. By convention, models are uppercase and singular (Topping rather than Topping*s*). The file will look like this:
+  ```js
+  // topping.js
+  const mongoose = require("mongoose");
+
+  // Schema defines our data model. Topping names must be unique!
+  const ToppingSchema = new mongoose.Schema({
+  name: String
+});
+
+  // Creating a model defines a new collection
+  const Topping = mongoose.model("Topping", ToppingSchema);
+  module.exports = Topping;
+  ```
+* Then, we will need to import our model into our `server.js` by adding the line:
+  ```js
+  const Topping = require("./topping.js");
+  ```
+* Then, we'll need to change our interface to our db. You'll find that it's really similar to using the `mongdb` library, but more consistent and easier. Let's first change `getToppings()`:
+  ```js
+  function getToppings(cb) {
+    Topping.find({}, (err, toppings) => {
+      cb(err, toppings);
+    });
+  }
+  ```
+* Then, let's change create:
+  ```js
+  function addTopping(topping, cb) {
+    Topping.create({name: topping}, (err, savedTopping) => {
+      cb(err, saveTopping);
+    });
+  }
+  ```
+* And lastly delete (note that it no longer returns the number deleted):
+  ```js
+  function deleteTopping(toppingToDelete, cb) {
+    Topping.deleteOne({name: toppingToDelete}, (err) => {
+      cb(err);
+    });
+  }
+  //...
+
+  app.delete("/toppings/:name", (req, res) => {
+    const toppingToDelete = req.params.name;
+    deleteTopping(toppingToDelete, (err) => {
+      if (err) {
+        return res.status(404).json({ message: `Topping with the name "${toppingToDelete}" does not exist.` });
+      }
+      res.json({ numDeleted: 1 });
+    });
+  });
+  ```
+* Run your app to make sure it's all working correctly.
+  
+### 17 Data Validation with Mongoose
+**Challenge**:
+Add data validation to your schema, so that you cannot add two toppings with the same name.
+* Copy your code from Challenge 16
