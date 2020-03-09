@@ -366,3 +366,28 @@ Use Mongoose to create a Schema for our data. Why? Mongoose gives us a lot of ni
 **Challenge**:
 Add data validation to your schema, so that you cannot add two toppings with the same name.
 * Copy your code from Challenge 16
+* Update your `Topping` schema to ensure name is unique:
+  ```js
+  const ToppingSchema = new mongoose.Schema({
+    name: { type: String, unique: true }
+  });
+  ```
+* Then, in our code to create a topping, we need to handle the error that Mongoose will return if you try to insert a topping with the same name as an existing one:
+  ```js
+  app.post("/toppings", (req, res) => {
+    const topping = req.body.topping;
+    if (!topping) {
+      return res.status(400).json({ message: "Missing \"topping\" attribute from request body." });
+    }
+
+    // Updated code!
+    addTopping(topping, (err, newTopping) => {
+      if (err) {
+        console.log(err);
+        res.status(403).json({ message: `Cannot create duplicate topping ${newTopping}.` });
+      }
+      res.json(newTopping);
+    });
+  });
+  ```
+* Test that it all works by trying to add a topping that already exists
